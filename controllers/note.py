@@ -5,6 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from typing import List
 from fastapi import status
+from  prisma.errors import MissingRequiredValueError, ForeignKeyViolationError
 
 router = APIRouter(prefix="/notes", tags=['Anotações'])
 noteRepository = NoteRepository()
@@ -17,6 +18,9 @@ async def list_notes() -> List[NoteResponse]:
 
 @router.post("/create")
 async def insert_note(request: NoteRequest) -> NoteResponse:
-    response = await noteRepository.create(request.dict())
-		
-    return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
+    try:
+        response = await noteRepository.create(request.dict())
+
+        return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
+    except Exception as error:
+        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)

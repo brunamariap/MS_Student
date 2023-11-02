@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from services.student import StudentRepository
 from prisma.partials import StudentRequest, StudentResponse
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from typing import List
 from fastapi import status
 
@@ -12,20 +12,26 @@ studentRepository = StudentRepository()
 @router.get("/all")
 async def list_students() -> List[StudentResponse]:
     response = await studentRepository.get_all()
-		
+    
     return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
 
 @router.post("/create")
 async def insert_student(request: StudentRequest) -> StudentResponse:
-    response = await studentRepository.create(request.dict())
-		
-    return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
+    try:
+        response = await studentRepository.create(request.dict())
+
+        return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
+    except Exception as error:
+        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
 @router.put("/{id}/modify")
 async def modify_student(id: str, request: StudentRequest) -> StudentResponse:
-    response = await studentRepository.change(id, request.dict())
-		
-    return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
+    try:
+        response = await studentRepository.change(id, request.dict())
+
+        return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
+    except Exception as error:
+        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
 @router.delete("/remove")
 async def remove_student(id: str) -> StudentResponse:
