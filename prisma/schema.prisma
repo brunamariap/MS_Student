@@ -13,7 +13,7 @@ generator client {
 model Student {
     id           String   @id @default(uuid())
     name         String
-    registration Int
+    registration BigInt
     dateOfBirth  DateTime
     picture      String
     classId      String
