@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from prisma import Prisma
-from controllers import student, note
+from controllers import student, note, grade
 
 app = FastAPI()
 app.include_router(student.router)
 app.include_router(note.router)
+app.include_router(grade.router)
 
 prisma = Prisma(auto_register=True)
 
