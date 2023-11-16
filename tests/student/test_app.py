@@ -3,11 +3,16 @@ from fastapi.testclient import TestClient
 from .test_base import TestBase
 from main import app
 from prisma.models import Student
+from prisma.partials import StudentRequest
+from .factories import StudentFactory
+
 client = TestClient(app)
 
 class TestApp(TestBase):
 
     def test_get_all_students(self, setUp):
-        students = Student.prisma().find_many()
+        factory = StudentFactory('1123')
 
-        assert len(students) == 0
+        students = Student.prisma().create(StudentRequest(**factory))
+        
+        assert students
