@@ -11,15 +11,15 @@ router = APIRouter(prefix="/notes", tags=['Anotações'])
 noteRepository = NoteRepository()
 
 @router.get("/all")
-async def list_notes() -> List[NoteResponse]:
-    response = await noteRepository.get_all()
+def list_notes() -> List[NoteResponse]:
+    response = noteRepository.get_all()
 		
     return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
 
 @router.post("/create")
-async def insert_note(request: NoteRequest) -> NoteResponse:
+def insert_note(request: NoteRequest) -> NoteResponse:
     try:
-        response = await noteRepository.create(request.dict())
+        response = noteRepository.create(request.dict())
 
         return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
     except Exception as error:
