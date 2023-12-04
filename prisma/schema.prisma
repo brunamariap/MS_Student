@@ -1,44 +1,52 @@
 // database
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 // generator
 generator client {
-  provider             = "prisma-client-py"
-  interface            = "sync"
-  recursive_type_depth = 5
+    provider             = "prisma-client-py"
+    interface            = "sync"
+    recursive_type_depth = 5
 }
 
 model Student {
-  id           String   @id @default(uuid())
-  name         String
-  registration BigInt
-  dateOfBirth  DateTime
-  picture      String
-  classId      String
-  notes        Note[]
-  grades       Grade[]
+    id                  String                @id @default(uuid())
+    name                String
+    registration        BigInt
+    dateOfBirth         DateTime
+    picture             String
+    classId             String
+    notes               Note[]
+    grades              Grade[]
+    StudentParticipates StudentParticipates[]
 }
 
 model Note {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  studentId   String
-  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  createdBy   String
-  createdAt   DateTime @default(now())
+    id          String   @id @default(uuid())
+    title       String
+    description String
+    studentId   String
+    student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+    createdBy   String
+    createdAt   DateTime @default(now())
 }
 
 model Grade {
-  id           String  @id @default(uuid())
-  score        Int
-  bimester     Int
-  disciplineId String
-  attributedBy String
-  studentId    String
-  student      Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  diaryId      String
+    id           String  @id @default(uuid())
+    score        Int
+    bimester     Int
+    disciplineId String
+    attributedBy String
+    studentId    String
+    student      Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+    diaryId      String
+}
+
+model StudentParticipates {
+    id        String  @id @default(uuid())
+    studentId String
+    stundet   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+    eventId   String
 }
