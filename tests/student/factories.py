@@ -23,3 +23,8 @@ class StudentFactory():
             "picture": self.picture,
             "classId": self.classId,
         }
+
+class StudentParticipatesFactory:
+    
+    def __init__(self) :
+        pass

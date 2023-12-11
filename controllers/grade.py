@@ -25,11 +25,13 @@ def get_student_grades(student_id: str, diary_id: Optional[str] = None) -> List[
 
 @router.get("/{id}/details")
 def get_grade(id: str) -> List[GradeResponse]:
-    response = gradeService.get_by_id(id)
-    if not response:
-        return JSONResponse(content={"details": "Não foi encontrado notas com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
-		
-    return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
+    try:
+        response = gradeService.get_by_id(id)
+        if not response:
+            return JSONResponse(content={"details": "Não foi encontrado notas com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
+        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_200_OK)
+    except Exception as error:
+        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
 @router.post("/create")
 def insert_grade(request: GradeRequest) -> GradeResponse:

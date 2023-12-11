@@ -1,4 +1,4 @@
-from prisma.models import Student, Note, Grade
+from prisma.models import Student, Note, Grade, StudentParticipates
 
 Student.create_partial('StudentRequest', exclude=['id'], exclude_relational_fields=True)
 Student.create_partial('StudentResponse', exclude_relational_fields=True)
@@ -8,3 +8,6 @@ Note.create_partial('NoteResponse', exclude_relational_fields=True)
 
 Grade.create_partial('GradeRequest', exclude=['id'], exclude_relational_fields=True)
 Grade.create_partial('GradeResponse', exclude_relational_fields=True)
+
+StudentParticipates.create_partial('StudentParticipatesRequest', exclude=['id'], exclude_relational_fields=True)
+StudentParticipates.create_partial('StudentParticipatesResponse', exclude_relational_fields=True)
