@@ -57,26 +57,27 @@ def remove_student(id: str) -> StudentResponse:
 
     except Exception as error:
         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
-    
 
 @router.get("/{id}/events/all")
-def get_student_event_participated(id: str) -> List[StudentResponse]:
+def get_student_event_participated(id: str) -> List[StudentParticipatesResponse]:
     try:
         response = student_service.get_event_participated(id)
 
         if not response:
             return JSONResponse(content={"details": "Não foi encontrado estudante com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
 
-        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_200_OK)
+        return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
     except Exception as error:
         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
-# @router.post("/{id}/events/create")
-# def insert_link_student_to_event(request: StudentParticipatesRequest) -> List[StudentParticipatesResponse]:
-#     try:
-#         response = student_service.create_student_link_to_event(request.dict())
+@router.post("/events/link")
+def link_students_to_events(request: List[StudentParticipatesRequest]) -> List[StudentParticipatesRequest]:
+    try:
+        formated_request = []
+        for item in request:
+            formated_request.append(item.dict())
+        response = student_service.create_student_link_to_event(formated_request)
 
-#         return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_201_CREATED)
-
-#     except Exception as error:
-#         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
+        return JSONResponse(content=jsonable_encoder(formated_request), status_code=status.HTTP_201_CREATED)
+    except Exception as error:
+        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)

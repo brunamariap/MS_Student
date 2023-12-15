@@ -21,6 +21,7 @@ model Student {
     notes               Note[]
     grades              Grade[]
     StudentParticipates StudentParticipates[]
+    StudentDisciplines  StudentDisciplines[]
 }
 
 model Note {
@@ -49,4 +50,11 @@ model StudentParticipates {
     studentId String
     student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
     eventId   String
+}
+
+model StudentDisciplines {
+    id           String  @id @default(uuid())
+    studentid    String
+    student      Student @relation(fields: [studentid], references: [id], onDelete: Cascade)
+    disciplineId String
 }

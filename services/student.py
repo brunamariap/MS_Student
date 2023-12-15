@@ -1,5 +1,6 @@
 from repository.student import StudentRepository
 from prisma.partials import StudentRequest, StudentParticipatesRequest
+from typing import List
 
 
 class StudentService:
@@ -16,14 +17,17 @@ class StudentService:
     def get_by_id(self, id: str):
         return self.service.get_by_id(id)
 
-    def create_student_link_to_event(self, request: StudentParticipatesRequest):
+    def create_student_link_to_event(self, request: List[StudentParticipatesRequest]):
         return self.service.create_student_link_to_event(request)
 
     def get_event_participated(self, id: str):
         return self.service.get_event_participated(id)
     
+    def get_students_participated_event(self, eventId: str):
+        return self.service.get_students_participated_event(eventId)
+    
     def remove_student_link_to_event(self, id: str):
-        return self.service.create_student_link_to_event(id)
+        return self.service.remove_student_link_to_event(id)
 
     def change(self, id: str, request: StudentRequest):
         return self.service.change(id, request)
