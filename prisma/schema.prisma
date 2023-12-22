@@ -54,7 +54,7 @@ model StudentParticipates {
 
 model StudentDisciplines {
     id           String  @id @default(uuid())
-    studentid    String
-    student      Student @relation(fields: [studentid], references: [id], onDelete: Cascade)
+    studentId    String
+    student      Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
     disciplineId String
 }

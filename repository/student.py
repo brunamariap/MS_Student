@@ -18,7 +18,7 @@ class StudentRepository:
         return self.repository.prisma().find_unique({'id': id})
 
     def change(self, id: str, request: StudentRequest):
-        return self.repository.prisma().update(data=request, where={'id': 'id'})
+        return self.repository.prisma().update(data=request, where={'id': id})
 
     def remove(self, id: str):
         return self.repository.prisma().delete({'id': id})
@@ -37,7 +37,7 @@ class StudentRepository:
         # return StudentParticipates.prisma().delete_many(where={'studentId': '7e5fd67a-926d-42d3-b740-a3d725728770'})
 
     def get_student_disciplines(self, studentId: str):
-        return StudentDisciplines.prisma().find_many({'studentid': studentId})
+        return StudentDisciplines.prisma().find_many({'studentId': studentId})
     
     def create_link_student_discipline(self, request: List[StudentDisciplinesRequest]):
         return StudentDisciplines.prisma().create_many(request, skip_duplicates=True)
