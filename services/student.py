@@ -22,6 +22,9 @@ class StudentService:
 
     def remove(self, id: str):
         return self.service.remove(id)
+    
+    def get_all_student_and_events(self):
+        return self.service.get_all_student_and_events()
 
     def create_student_link_to_event(self, request: List[StudentParticipatesRequest]):
         return self.service.create_student_link_to_event(request)

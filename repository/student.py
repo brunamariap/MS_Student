@@ -22,9 +22,12 @@ class StudentRepository:
 
     def remove(self, id: str):
         return self.repository.prisma().delete({'id': id})
+    
+    def get_all_student_and_events(self):
+        return StudentParticipates.prisma().find_many(include={'student': True})
 
     def get_event_participated(self, id: str):
-        return StudentParticipates.prisma().find_many({'studentId': id})
+        return StudentParticipates.prisma().find_many({'studentId': id}, include={'student'})
     
     def get_students_participated_event(self, eventId: str):
         return StudentParticipates.prisma().find_many({'eventId': eventId})

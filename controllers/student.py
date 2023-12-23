@@ -91,6 +91,16 @@ def link_students_to_events(request: List[StudentParticipatesRequest]) -> List[S
         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
 
+@router.get("/events/links/all")
+def get_all_student_and_events():
+    try:
+        response = student_service.get_all_student_and_events()
+
+        return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
+    except Exception as error:
+        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
+
+
 @router.get("/{studentId}/disciplines/all")
 def get_student_disciplines(studentId: str):
     try:
