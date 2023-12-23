@@ -36,6 +36,8 @@ class StudentRepository:
         return StudentParticipates.prisma().create_many(request, skip_duplicates=True)
     
     def remove_student_link_to_event(self, id: str):
+        # print(student_id)
+        # print(event_id)
         return StudentParticipates.prisma().delete({'id': id})
         # return StudentParticipates.prisma().delete_many(where={'studentId': '7e5fd67a-926d-42d3-b740-a3d725728770'})
 

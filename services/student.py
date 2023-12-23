@@ -35,7 +35,7 @@ class StudentService:
     def get_students_participated_event(self, eventId: str):
         return self.service.get_students_participated_event(eventId)
     
-    def remove_student_link_to_event(self, id: str):
+    def remove_student_link_to_event(self, id:str):
         return self.service.remove_student_link_to_event(id)
     
     def get_student_disciplines(self, studentId: str):
