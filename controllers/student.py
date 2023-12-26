@@ -36,12 +36,14 @@ def list_students() -> List[StudentResponse]:
 @router.post("/create")
 def insert_student(request: StudentRequest) -> StudentResponse:
     try:
-        url = f"{academic_management_MS_url_base}/classes/{request.dict()['classId']}/details"
-        response = requests.get(url=url)
-        if response.status_code == 200:
-            response = student_service.create(request.dict())
+        # url = f"{academic_management_MS_url_base}/classes/{request.dict()['classId']}/details"
+        # response = requests.get(url=url)
+        # if response.status_code == 200:
+        response = student_service.create(request.dict())
 
+        if response:
             return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_201_CREATED)
+
         return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_400_BAD_REQUEST)
     except Exception as error:
         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
@@ -63,12 +65,12 @@ def get_student(id: str) -> List[StudentResponse]:
 @router.put("/{id}/modify")
 def modify_student(id: str, request: StudentRequest) -> StudentResponse:
     try:
-        url = f"{academic_management_MS_url_base}/classes/{request.dict()['classId']}/details"
-        response = requests.get(url=url)
-        if response.status_code == 200:
-            response = student_service.change(id, request.dict())
+        # url = f"{academic_management_MS_url_base}/classes/{request.dict()['classId']}/details"
+        # response = requests.get(url=url)
+        # if response.status_code == 200:
+        response = student_service.change(id, request.dict())
 
-            return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
+        return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
     except Exception as error:
         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
