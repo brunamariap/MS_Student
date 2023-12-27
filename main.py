@@ -1,6 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from prisma import Prisma
 from controllers import student, note, grade
+
+def is_authenticated():
+    pass
 
 app = FastAPI()
 app.include_router(student.router)
