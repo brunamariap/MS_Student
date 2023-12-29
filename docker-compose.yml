@@ -1,19 +1,30 @@
-version: '1'
+version: '3'
 services:
-
     db:
+        container_name: postgres
         image: postgres
         environment:
+            POSTGRES_HOST: postgres
             POSTGRES_DB: Student
+            POSTGRES_PORT: 5432
             POSTGRES_USER: admin
             POSTGRES_PASSWORD: admpass
         ports:
             - "5432:5432"
+        networks:
+            - production
+
     app:
-        build: .
+        build: 
+            context: .
+            dockerfile: Dockerfile
         ports:
-            - "8003:8000"
+            - "8003:8003"
         depends_on:
             - db
         environment:
-            DATABASE_URL: postgres://admin:admpass@127.0.0.1:5432/Student
+            DATABASE_URL: postgres
+        networks:
+            - production
+networks:
+    production:

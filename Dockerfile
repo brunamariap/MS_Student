@@ -11,9 +11,10 @@ COPY . /
 RUN pip install -r requirements.txt
 RUN apt-get update && apt-get install -y postgresql postgresql-contrib
 
-RUN service postgresql start
-RUN prisma migrate dev
+# Adicione o script de inicialização
+EXPOSE 8003
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 
-EXPOSE 8000
-
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Defina o comando CMD para executar o script de inicialização
+CMD ["/entrypoint.sh"]
