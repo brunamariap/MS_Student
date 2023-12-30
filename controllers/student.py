@@ -140,17 +140,14 @@ def get_all_student_and_events():
         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@router.get("/{id}/disciplines/all")
-def get_student_disciplines(id: str):
-    try:
-        response = student_service.get_student_disciplines(id)
+@router.get("/{student_id}/disciplines/all")
+def get_student_disciplines(student_id: str):
+    response = student_service.get_student_disciplines(student_id)
 
-        if not response:
-            return JSONResponse(content={"details": "Não foi encontrado um estudante com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
+    if not response:
+        return JSONResponse(content={"details": "Não foi encontrado um estudante com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
 
-        return JSONResponse(content={}, status_code=status.HTTP_204_NO_CONTENT)
-    except Exception as error:
-        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
+    return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
 
 
 @router.post("/disciplines/create")

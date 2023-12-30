@@ -40,15 +40,15 @@ class StudentService:
     def remove_student_link_to_event(self, id:str):
         return self.service.remove_student_link_to_event(id)
     
-    def get_student_disciplines(self, studentId: str):
-        student_disciplines = self.service.get_student_disciplines(studentId)
-
+    def get_student_disciplines(self, student_id: str):
+        student_disciplines = self.service.get_student_disciplines(student_id)
+        
         disciplines = []
         for discipline in student_disciplines:
             discipline_details = disciplineService.get_discipline(discipline.disciplineId)
             disciplines.append(discipline_details) 
-    
-        return self.service.get_student_disciplines(studentId)
+        
+        return disciplines
     
     def create_link_student_discipline(self, request: List[StudentDisciplinesRequest]):
         return self.service.create_link_student_discipline(request)
