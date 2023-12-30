@@ -20,8 +20,6 @@ def list_grades() -> List[GradeResponse]:
 @router.get("/{student_id}")
 def get_student_grades(student_id: str, diary_id: Optional[str] = None) -> List[GradeResponse]:
     response = gradeService.get_student_grades(student_id, diary_id)
-    if not response:
-        return JSONResponse(content={"details": "Não foi encontrado notas com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
 
     return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
 

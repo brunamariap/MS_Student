@@ -42,7 +42,7 @@ class StudentRepository:
         # return StudentParticipates.prisma().delete_many(where={'studentId': '7e5fd67a-926d-42d3-b740-a3d725728770'})
 
     def get_student_disciplines(self, studentId: str):
-        return StudentDisciplines.prisma().find_many({'studentId': studentId})
+        return StudentDisciplines.prisma().find_many(where={'studentId': studentId})
     
     def create_link_student_discipline(self, request: List[StudentDisciplinesRequest]):
         return StudentDisciplines.prisma().create_many(request, skip_duplicates=True)

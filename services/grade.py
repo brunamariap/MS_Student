@@ -1,26 +1,73 @@
 from repository.grade import GradeRepository
-from prisma.partials import GradeRequest
+from prisma.partials import GradeRequest, GradeResponse
 from typing import Optional
+import requests
+from fastapi import HTTPException, status
+from services.discipline import DisciplineService
+
+disciplineService = DisciplineService()
 
 class GradeService:
 
     def __init__(self):
-        self.service = GradeRepository()
+        self.repository = GradeRepository()
 
     def create(self, request: GradeRequest):
-        return self.service.create(request)
+        return self.repository.create(request)
 
     def get_all(self):
-        return self.service.get_all()
+        return self.repository.get_all()
 
     def get_by_id(self, id: str):
-        return self.service.get_by_id(id)
+        return self.repository.get_by_id(id)
 
     def change(self, id: str, request: GradeRequest):
-        return self.service.change(id, request)
+        return self.repository.change(id, request)
 
     def remove(self, id: str):
-        return self.service.remove(id)
+        return self.repository.remove(id)
     
-    def get_student_grades(self, student_id: str, diary_id: Optional[str]):
-        return self.service.get_student_grades(student_id, diary_id)
+    def get_student_grades(self, student_id: str, diary_id: str):
+        student_grades = self.repository.get_student_grades(student_id, diary_id)
+
+        grouped_data = {}
+        for record in student_grades:
+            discipline_id = record.disciplineId
+            if discipline_id not in grouped_data:
+                grouped_data[discipline_id] = []
+
+            grouped_data[discipline_id].append(record)
+
+        grades_with_disciplines = []
+        for discipline_id, records in grouped_data.items():
+            print(f"Discipline ID: {discipline_id}")
+            discipline = disciplineService.get_discipline(discipline_id)
+            discipline_with_grades = {
+                **discipline,
+                "grades": []
+            }
+            
+            for record in records:
+                new_record = {
+                    **record.dict(),
+                    'gradeId': record.id
+                }
+                del new_record['id']
+
+                discipline_with_grades["grades"].append(new_record)
+            grades_with_disciplines.append(discipline_with_grades)
+
+        print(grades_with_disciplines)
+
+        # for grade in student_grades:
+        #     discipline = disciplineService.get_discipline(grade.disciplineId)
+        #     grade_dict = {
+        #         "diary_id": grade.diaryId,
+        #         "attributed_by": grade.attributedBy,
+        #         "bimester": grade.bimester,
+        #         'discipline': discipline,
+        #         "student_id": grade.studentId
+        #     }
+        #     grades_with_disciplines.append(grade_dict)
+        
+        return grades_with_disciplines

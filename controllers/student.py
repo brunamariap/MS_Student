@@ -48,11 +48,10 @@ def insert_student(request: StudentRequest) -> StudentResponse:
     except Exception as error:
         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
-
-@router.get("/{id}/details")
-def get_student(id: str) -> List[StudentResponse]:
+@router.get("/{student_id}/details")
+def get_student(student_id: str) -> List[StudentResponse]:
     try:
-        response = student_service.get_by_id(id)
+        response = student_service.get_by_id(student_id)
 
         if not response:
             return JSONResponse(content={"details": "Não foi encontrado estudante com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
@@ -62,13 +61,13 @@ def get_student(id: str) -> List[StudentResponse]:
         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@router.put("/{id}/modify")
-def modify_student(id: str, request: StudentRequest) -> StudentResponse:
+@router.put("/{student_id}/modify")
+def modify_student(student_id: str, request: StudentRequest) -> StudentResponse:
     try:
         # url = f"{academic_management_MS_url_base}/classes/{request.dict()['classId']}/details"
         # response = requests.get(url=url)
         # if response.status_code == 200:
-        response = student_service.change(id, request.dict())
+        response = student_service.change(student_id, request.dict())
 
         return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
     except Exception as error:
@@ -89,10 +88,10 @@ def remove_student(id: str) -> StudentResponse:
         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@router.get("/{id}/events/all")
-def get_student_event_participated(id: str) -> List[StudentParticipatesResponse]:
+@router.get("/{student_id}/events/all")
+def get_student_event_participated(student_id: str) -> List[StudentParticipatesResponse]:
     try:
-        response = student_service.get_event_participated(id)
+        response = student_service.get_event_participated(student_id)
 
         if not response:
             return JSONResponse(content={"details": "Não foi encontrado estudante com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
@@ -154,8 +153,8 @@ def get_student_disciplines(id: str):
         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
 
-@router.post("/{id}/disciplines/create")
-def create_link_student_discipline(id: str, request: List[StudentDisciplinesRequest]):
+@router.post("/disciplines/create")
+def create_link_student_discipline(request: List[StudentDisciplinesRequest]):
     try:
         formated_request = []
         for item in request:

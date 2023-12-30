@@ -1,29 +1,37 @@
-version: '3'
+version: "3.9"
 services:
     db:
-        container_name: postgres
+        container_name: NAPNE_DATABASE
         image: postgres
         environment:
             POSTGRES_HOST: postgres
-            POSTGRES_DB: Student
+            POSTGRES_DB: NAPNE_DB
             POSTGRES_PORT: 5432
             POSTGRES_USER: admin
             POSTGRES_PASSWORD: admpass
         ports:
-            - "5432:5432"
+            - 5432:5432
         networks:
             - production
 
-    app:
-        build: 
+    student_microservice:
+        container_name: MS_Student
+        build:
             context: .
             dockerfile: Dockerfile
         ports:
-            - "8003:8003"
+            - 8003:8003
+        command: 
+            - "/bin/bash"
+            - "-c"
+            - |
+                prisma migrate deploy
+                prisma generate
+                uvicorn main:app --host 0.0.0.0 --port 8003
         depends_on:
             - db
         environment:
-            DATABASE_URL: postgres
+            DATABASE_URL: postgresql://admin:admpass@db/NAPNE_DB
         networks:
             - production
 networks:

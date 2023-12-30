@@ -28,10 +28,10 @@ class GradeRepository:
                 where={
                     "studentId": student_id,
                     "diaryId": diary_id,
-                }, 
-                include={"diary": True },
+                }
+                
             )
 
         return self.repository.prisma().find_many(where={
             "studentId": student_id
-        }, include={'diary': True})
+        })

@@ -1,7 +1,9 @@
 from repository.student import StudentRepository
 from prisma.partials import StudentRequest, StudentParticipatesRequest, StudentDisciplinesRequest
 from typing import List
+from services.discipline import DisciplineService
 
+disciplineService = DisciplineService()
 
 class StudentService:
 
@@ -39,6 +41,13 @@ class StudentService:
         return self.service.remove_student_link_to_event(id)
     
     def get_student_disciplines(self, studentId: str):
+        student_disciplines = self.service.get_student_disciplines(studentId)
+
+        disciplines = []
+        for discipline in student_disciplines:
+            discipline_details = disciplineService.get_discipline(discipline.disciplineId)
+            disciplines.append(discipline_details) 
+    
         return self.service.get_student_disciplines(studentId)
     
     def create_link_student_discipline(self, request: List[StudentDisciplinesRequest]):
