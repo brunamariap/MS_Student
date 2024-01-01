@@ -1,6 +1,6 @@
 from prisma.models import Grade
 from prisma.partials import GradeRequest
-from typing import Optional
+from typing import Optional, List
 
 class GradeRepository:
 
@@ -9,6 +9,9 @@ class GradeRepository:
 
     def create(self, request: GradeRequest):
         return self.repository.prisma().create(request)
+    
+    def create_many(self, request: List[GradeRequest]):
+        return self.repository.prisma().create_many(request)
 
     def get_all(self):
         return self.repository.prisma().find_many()
@@ -28,10 +31,17 @@ class GradeRepository:
                 where={
                     "studentId": student_id,
                     "diaryId": diary_id,
+                },
+                order={
+                    'bimester': 'asc'
                 }
-                
             )
 
-        return self.repository.prisma().find_many(where={
-            "studentId": student_id
-        })
+        return self.repository.prisma().find_many(
+            where={
+                "studentId": student_id
+            },
+            order={
+                'bimester': 'asc'
+            }
+        )

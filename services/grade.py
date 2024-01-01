@@ -1,8 +1,6 @@
 from repository.grade import GradeRepository
-from prisma.partials import GradeRequest, GradeResponse
-from typing import Optional
-import requests
-from fastapi import HTTPException, status
+from prisma.partials import GradeRequest
+from typing import Optional, List
 from services.discipline import DisciplineService
 
 disciplineService = DisciplineService()
@@ -14,6 +12,7 @@ class GradeService:
 
     def create(self, request: GradeRequest):
         return self.repository.create(request)
+        
 
     def get_all(self):
         return self.repository.get_all()
@@ -71,3 +70,6 @@ class GradeService:
         #     grades_with_disciplines.append(grade_dict)
         
         return grades_with_disciplines
+    
+    def create_many_grades(self, request: List[GradeRequest]):
+        return self.repository.create_many(request)

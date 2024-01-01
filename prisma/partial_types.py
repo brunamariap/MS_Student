@@ -3,7 +3,7 @@ from prisma.models import Student, Note, Grade, StudentParticipates, StudentDisc
 Student.create_partial('StudentRequest', exclude=['id', 'picture'], exclude_relational_fields=True)
 Student.create_partial('StudentResponse', exclude_relational_fields=True, exclude=['StudentParticipates', 'StudentDisciplines'])
 
-Note.create_partial('NoteRequest', exclude=['id'], exclude_relational_fields=True)
+Note.create_partial('NoteRequest', exclude=['id', 'createdAt'], exclude_relational_fields=True)
 Note.create_partial('NoteResponse', exclude_relational_fields=True)
 
 Grade.create_partial('GradeRequest', exclude=['id'], exclude_relational_fields=True)

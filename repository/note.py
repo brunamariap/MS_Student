@@ -25,4 +25,4 @@ class NoteRepository:
     def get_notes_by_student_id(self, student_id: str):
         return self.repository.prisma().find_many(where={
             'studentId': student_id
-        })
+        }, order={'createdAt': 'desc'})

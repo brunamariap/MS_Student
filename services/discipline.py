@@ -1,12 +1,12 @@
 import requests
 from fastapi import HTTPException, status
-
+import os
 
 class DisciplineService: 
 
     def __init__(self, *args, **kwargs):
         # Academic Managament Microsservice
-        self.baseUrl = 'http://127.0.0.1:8001'
+        self.baseUrl = os.getenv("MS_ACADEMIC_MANAGEMENT_URL", 'http://127.0.0.1:8001')
     
     def get_discipline(self, discipline_id):
         response = requests.get(f'{self.baseUrl}/disciplines/{discipline_id}')
