@@ -4,6 +4,7 @@ from typing import List
 from services.discipline import DisciplineService
 from services.event import EventService
 from services.school_class import ClassService
+from services.grade import GradeService
 from fastapi import Path, UploadFile
 from typing import Optional
 import uuid
@@ -13,6 +14,7 @@ import os
 disciplineService = DisciplineService()
 eventService = EventService()
 classService = ClassService()
+gradeService = GradeService()
 
 class StudentService:
 
@@ -30,7 +32,7 @@ class StudentService:
         student_class = classService.get_class_details(student.classId)
         student_with_details = {
             **student.dict(),
-            "class": student_class
+            "schoolClass": student_class
         }
         
         return student_with_details
@@ -74,7 +76,9 @@ class StudentService:
         return disciplines
     
     def create_link_student_discipline(self, request: List[StudentDisciplinesRequest]):
-        return self.repository.create_link_student_discipline(request)
+        response = self.repository.create_link_student_discipline(request)
+
+        return response
     
     def remove_student_bond_discipline(self, id: str):
         return self.repository.remove_student_bond_discipline(id)

@@ -1,7 +1,9 @@
 from repository.note import NoteRepository
 from prisma.partials import NoteRequest
+from services.user import UserService
 
 
+userService = UserService()
 class NoteService:
 
     def __init__(self):
@@ -23,4 +25,14 @@ class NoteService:
         return self.repository.remove(id)
     
     def get_student_notes(self, student_id: str):
-        return self.repository.get_notes_by_student_id(student_id)
+
+        student_notes = self.repository.get_notes_by_student_id(student_id)
+        notes = []
+        for note in student_notes:
+            user = userService.get_user_details(note.createdBy)
+            notes.append({
+                **note.dict(),
+                "user": user
+            })
+            
+        return notes

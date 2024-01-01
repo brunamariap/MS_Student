@@ -140,8 +140,8 @@ def get_all_student_and_events():
 def get_student_disciplines(student_id: str):
     response = student_service.get_student_disciplines(student_id)
 
-    if not response:
-        return JSONResponse(content={"details": "Não foi encontrado um estudante com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
+    # if len():
+    #     return JSONResponse(content={"details": "Não foi encontrado um estudante com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
 
     return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
 
