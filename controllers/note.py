@@ -17,6 +17,12 @@ def list_notes() -> List[NoteResponse]:
 
     return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
 
+@router.get("/{student_id}")
+def list_student_notes(student_id: str) -> List[NoteResponse]:
+    response = note_service.get_student_notes(student_id)
+
+    return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
+
 
 @router.post("/create")
 def insert_note(request: NoteRequest) -> NoteResponse:

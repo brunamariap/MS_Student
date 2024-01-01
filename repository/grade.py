@@ -11,7 +11,7 @@ class GradeRepository:
         return self.repository.prisma().create(request)
 
     def get_all(self):
-        return self.repository.prisma().find_many(include={'diary': True})
+        return self.repository.prisma().find_many()
 
     def get_by_id(self, id):
         return self.repository.prisma().find_unique({'id': id})

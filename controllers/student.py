@@ -1,10 +1,10 @@
 from fastapi import APIRouter
 from services.student import StudentService
-from prisma.partials import StudentRequest, StudentResponse, StudentParticipatesRequest, StudentParticipatesResponse, StudentDisciplinesRequest, StudentDisciplinesResponse
+from prisma.partials import StudentRequest, StudentResponse, StudentParticipatesRequest, StudentParticipatesResponse, StudentDisciplinesRequest
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import JSONResponse
 from typing import List
-from fastapi import status
+from fastapi import status, UploadFile, Request
 import requests
 
 router = APIRouter(prefix="/students", tags=['Estudante'])
@@ -25,7 +25,6 @@ def check_if_discipline_exists(disciplineId:str):
     except Exception as error:
         return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
 
-
 @router.get("/all")
 def list_students() -> List[StudentResponse]:
     response = student_service.get_all()
@@ -35,30 +34,30 @@ def list_students() -> List[StudentResponse]:
 
 @router.post("/create")
 def insert_student(request: StudentRequest) -> StudentResponse:
-    try:
-        # url = f"{academic_management_MS_url_base}/classes/{request.dict()['classId']}/details"
-        # response = requests.get(url=url)
-        # if response.status_code == 200:
-        response = student_service.create(request.dict())
+    response = student_service.create(request.dict())
 
-        if response:
-            return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_201_CREATED)
+    if response:
+        return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_201_CREATED)
 
-        return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_400_BAD_REQUEST)
-    except Exception as error:
-        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
+    return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_400_BAD_REQUEST)
+
+@router.put("/{student_id}/picture")
+def change_student_picture(student_id:str, picture: UploadFile, request: Request):
+    response = student_service.change_student_picture(student_id, picture)
+
+    if response:
+        return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_201_CREATED)
+
+    return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_400_BAD_REQUEST)
 
 @router.get("/{student_id}/details")
 def get_student(student_id: str) -> List[StudentResponse]:
-    try:
-        response = student_service.get_by_id(student_id)
 
-        if not response:
-            return JSONResponse(content={"details": "Não foi encontrado estudante com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
-        return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
+    response = student_service.get_by_id(student_id)
 
-    except Exception as error:
-        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
+    if not response:
+        return JSONResponse(content={"details": "Não foi encontrado estudante com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
+    return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
 
 
 @router.put("/{student_id}/modify")
@@ -90,15 +89,12 @@ def remove_student(id: str) -> StudentResponse:
 
 @router.get("/{student_id}/events/all")
 def get_student_event_participated(student_id: str) -> List[StudentParticipatesResponse]:
-    try:
-        response = student_service.get_event_participated(student_id)
+    response = student_service.get_event_participated(student_id)
 
-        if not response:
-            return JSONResponse(content={"details": "Não foi encontrado estudante com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
+    # if response:
+    #     return JSONResponse(content={"details": "Não foi encontrado estudante com o id especificado"}, status_code=status.HTTP_404_NOT_FOUND)
 
-        return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
-    except Exception as error:
-        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
+    return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_200_OK)
     
 
 

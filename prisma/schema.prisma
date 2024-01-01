@@ -16,7 +16,7 @@ model Student {
     name                String
     registration        BigInt
     dateOfBirth         DateTime
-    picture             String
+    picture             String?
     classId             String
     notes               Note[]
     grades              Grade[]

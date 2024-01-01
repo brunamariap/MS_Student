@@ -21,3 +21,8 @@ class NoteRepository:
 
     def remove(self, id: str):
         return self.repository.prisma().delete({'id': id})
+
+    def get_notes_by_student_id(self, student_id: str):
+        return self.repository.prisma().find_many(where={
+            'studentId': student_id
+        })

@@ -2,12 +2,13 @@ from fastapi import FastAPI, Depends
 from prisma import Prisma
 from fastapi.middleware.cors import CORSMiddleware
 from controllers import student, note, grade
+from fastapi.staticfiles import StaticFiles
 
 def is_authenticated():
     pass
 
 app = FastAPI()
-
+app.mount("/static", StaticFiles(directory="static"), name="static")
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",

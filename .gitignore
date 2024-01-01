@@ -25,6 +25,7 @@ docs.zip
 archive.zip
 *.db
 database.db-journal
+static
 
 # vim temporary files
 *~

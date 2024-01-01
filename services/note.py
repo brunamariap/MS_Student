@@ -5,19 +5,22 @@ from prisma.partials import NoteRequest
 class NoteService:
 
     def __init__(self):
-        self.service = NoteRepository()
+        self.repository = NoteRepository()
 
     def create(self, request: NoteRequest):
-        return self.service.create(request)
+        return self.repository.create(request)
 
     def get_all(self):
-        return self.service.get_all()
+        return self.repository.get_all()
 
     def get_by_id(self, id: str):
-        return self.service.get_by_id(id)
+        return self.repository.get_by_id(id)
 
     def change(self, id: str, request: NoteRequest):
-        return self.service.change(id, request)
+        return self.repository.change(id, request)
 
     def remove(self, id: str):
-        return self.service.remove(id)
+        return self.repository.remove(id)
+    
+    def get_student_notes(self, student_id: str):
+        return self.repository.get_notes_by_student_id(student_id)
