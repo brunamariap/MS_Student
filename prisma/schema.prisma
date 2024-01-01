@@ -57,4 +57,5 @@ model StudentDisciplines {
     studentId    String
     student      Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
     disciplineId String
+    diaryId      String
 }
