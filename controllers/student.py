@@ -51,7 +51,7 @@ def change_student_picture(student_id:str, picture: UploadFile, request: Request
     return JSONResponse(content=jsonable_encoder(response), status_code=status.HTTP_400_BAD_REQUEST)
 
 @router.get("/{student_id}/details")
-def get_student(student_id: str) -> List[StudentResponse]:
+def get_student(student_id: str) -> StudentResponse:
 
     response = student_service.get_by_id(student_id)
 
