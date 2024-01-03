@@ -98,7 +98,7 @@ def get_student_event_participated(student_id: str) -> List[StudentParticipatesR
     
 
 
-@router.delete("/{id}/events/remove")
+@router.delete("/events/{id}/remove")
 def remove_student_link_to_event(id: str):
     try:
         response = student_service.remove_student_link_to_event(id)
