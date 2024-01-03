@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 def is_authenticated():
     pass
 
-app = FastAPI()
+app = FastAPI(title="MS Student")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 origins = [
     "http://localhost.tiangolo.com",
