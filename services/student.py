@@ -80,6 +80,18 @@ class StudentService:
     def create_link_student_discipline(self, request: List[StudentDisciplinesRequest]):
         response = self.repository.create_link_student_discipline(request)
 
+        grades_to_create = []
+        for discipline in request:
+            for bimester in range(1, 5):
+                grades_to_create.append({
+                    "bimester": bimester,
+                    "disciplineId": discipline["disciplineId"],
+                    "studentId": discipline["studentId"],
+                    "diaryId": discipline["diaryId"]
+                })
+
+        created_grades = gradeService.create_many_grades(grades_to_create)
+        
         return response
     
     def remove_student_bond_discipline(self, id: str):

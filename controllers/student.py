@@ -148,24 +148,21 @@ def get_student_disciplines(student_id: str):
 
 @router.post("/disciplines/create")
 def create_link_student_discipline(request: List[StudentDisciplinesRequest]):
-    try:
-        formated_request = []
-        for item in request:
-            data = item.dict()
-            formated_request.append(data)
-            # print(data["disciplineId"])
-            # response = check_if_discipline_exists(data['disciplineId'])
+    formated_request = []
+    for item in request:
+        data = item.dict()
+        formated_request.append(data)
+        # print(data["disciplineId"])
+        # response = check_if_discipline_exists(data['disciplineId'])
 
-            # if response != True:
-            #     print('entrou')
-            #     return response
+        # if response != True:
+        #     print('entrou')
+        #     return response
 
-        response = student_service.create_link_student_discipline(
-            formated_request)
+    response = student_service.create_link_student_discipline(
+        formated_request)
 
-        return JSONResponse(content=jsonable_encoder(formated_request), status_code=status.HTTP_201_CREATED)
-    except Exception as error:
-        return JSONResponse(content=jsonable_encoder(error), status_code=status.HTTP_400_BAD_REQUEST)
+    return JSONResponse(content=jsonable_encoder(formated_request), status_code=status.HTTP_201_CREATED)
 
 
 @router.delete("/disciplines/{id}/remove")
