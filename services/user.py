@@ -12,6 +12,6 @@ class UserService:
         response = requests.get(f'{self.baseUrl}/users/{user_id}/details')
         
         if response.status_code != 200:
-            raise HTTPException(status.HTTP_404_NOT_FOUND, {"details": "Não foi encontrado a disciplina com este ID"})
+            raise HTTPException(status.HTTP_404_NOT_FOUND, {"details": "Não foi encontrado usuário com este ID"})
         
         return response.json()
