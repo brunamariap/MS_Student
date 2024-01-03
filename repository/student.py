@@ -20,7 +20,7 @@ class StudentRepository:
     def change(self, id: str, request: StudentRequest):
         return self.repository.prisma().update(data=request, where={'id': id})
     
-    def change(self, id: str, picture: UploadFile):
+    def change_picture(self, id: str, picture: UploadFile):
         return self.repository.prisma().update(data={'picture': picture.filename}, where={'id': id})
 
     def remove(self, id: str):
@@ -33,7 +33,7 @@ class StudentRepository:
         return StudentParticipates.prisma().find_many(where={'studentId': student_id})
     
     def get_students_participated_event(self, eventId: str):
-        return StudentParticipates.prisma().find_many({'eventId': eventId})
+        return StudentParticipates.prisma().find_many({'eventId': eventId}, include={'student': True})
     
     def create_student_link_to_event(self, request: List[StudentParticipatesRequest]):
         return StudentParticipates.prisma().create_many(request, skip_duplicates=True)

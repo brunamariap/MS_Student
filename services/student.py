@@ -30,6 +30,7 @@ class StudentService:
 
     def get_by_id(self, id: str):
         student = self.repository.get_by_id(id)
+        print(dir(student))
         student_class = classService.get_class_details(student.classId)
         student_with_details = {
             **student.dict(),
@@ -96,4 +97,4 @@ class StudentService:
         with open(file_path, "wb") as image:
             shutil.copyfileobj(picture.file, image)
 
-        return self.repository.change(student_id, picture)
+        return self.repository.change_picture(student_id, picture)
