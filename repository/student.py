@@ -20,7 +20,7 @@ class StudentRepository:
     def change(self, id: str, request: StudentRequest):
         return self.repository.prisma().update(data=request, where={'id': id})
     
-    def change(self, id: str, picture: UploadFile):
+    def change_picture(self, id: str, picture: UploadFile):
         return self.repository.prisma().update(data={'picture': picture.filename}, where={'id': id})
 
     def remove(self, id: str):
