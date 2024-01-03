@@ -56,7 +56,7 @@ class StudentService:
         events = []
         for event in event_participations:
             response = eventService.get_event_details(event.eventId)
-            events.append(response)
+            events.append({'id': event.id, "event": response})
 
         return events
     
