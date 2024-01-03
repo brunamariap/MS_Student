@@ -22,7 +22,8 @@ class StudentService:
         self.repository = StudentRepository()
 
     def create(self, request: StudentRequest):
-        return self.repository.create(request)
+        created_student = self.repository.create(request)
+        return self.get_by_id(created_student.id)
 
     def get_all(self):
         return self.repository.get_all()
